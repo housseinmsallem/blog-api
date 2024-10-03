@@ -26,6 +26,8 @@ router.post('/', async (req, res) => {
     });
 
     const isMatch = await bcryptjs.compare(req.body.password, reader.password);
+    console.log(isMatch);
+    console.log(req.body.password, reader.password);
 
     if (isMatch) {
       const token = jwt.sign(
