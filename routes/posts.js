@@ -10,7 +10,7 @@ const {
 } = require('../controllers/queries');
 //BLOG VIEWING
 
-router.get('/', async (req, res, next) => {
+router.get('/', verifyToken, async (req, res, next) => {
   try {
     const blog = await findPosts();
 
