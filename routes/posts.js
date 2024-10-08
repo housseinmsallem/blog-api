@@ -37,7 +37,7 @@ router.post('/', verifyToken, async (req, res, next) => {
     } else {
       const postTitle = req.body.title;
       const postContent = req.body.content;
-      const postAuthorId = req.user?.id;
+      const postAuthorId = req.body.userId;
       if (!postAuthorId) {
         console.error('Please log in to create a post');
         return res.status(401).json({ error: 'Authentication required' });
@@ -55,10 +55,10 @@ router.post('/', verifyToken, async (req, res, next) => {
   });
 });
 
-router.get('/:postid', async (req, res, next) => {
-  const postid = req.params.postid;
+router.get('/:postId', async (req, res, next) => {
+  const postId = req.params.postId;
   try {
-    const post = await findUniquePost(postid);
+    const post = await findUniquePost(postId);
     console.log(post);
     if (!post) {
       return res.status(404).json({ error: 'Post not found' });

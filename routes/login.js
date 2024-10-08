@@ -8,7 +8,6 @@ router.post('/', async (req, res) => {
   try {
     const { email, password } = req.body; // Get email and password from client
     console.log('Login request for:', email);
-
     const reader = await prisma.reader.findUnique({
       where: { email: email },
       select: { id: true, password: true, email: true, isAdmin: true },
