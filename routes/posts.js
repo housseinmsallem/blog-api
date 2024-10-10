@@ -31,28 +31,22 @@ router.get('/', verifyToken, async (req, res, next) => {
   }
 });
 router.post('/', verifyToken, async (req, res, next) => {
-  jwt.verify(req.token, 'bomba', async (err, authData) => {
-    if (err) {
-      res.sendStatus(403);
-    } else {
-      const postTitle = req.body.title;
-      const postContent = req.body.content;
-      const postAuthorId = req.body.userId;
-      if (!postAuthorId) {
-        console.error('Please log in to create a post');
-        return res.status(401).json({ error: 'Authentication required' });
-      }
-      try {
-        await createPost({ postTitle, postContent, postAuthorId });
-        res.json({
-          message: 'Post created',
-          authData,
-        });
-      } catch (err) {
-        next(err);
-      }
-    }
-  });
+  const postTitle = req.body.title;
+  const postContent = req.body.content;
+  const postAuthorId = req.body.userId;
+  console.log([postAuthorId, postTitle, postContent]);
+  if (!postAuthorId) {
+    console.error('Please log in to create a post');
+    return res.status(401).json({ error: 'Authentication required' });
+  }
+  try {
+    await createPost({ postTitle, postContent, postAuthorId });
+    res.json({
+      message: 'Post created',
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.get('/:postId', async (req, res, next) => {
