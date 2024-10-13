@@ -18,6 +18,7 @@ router.get('/', verifyToken, async (req, res, next) => {
       return res.status(404).json({ error: 'Post not found' });
     }
     const formattedBlogs = blog.map((blog) => ({
+      id: blog.id,
       title: blog.title,
       content: blog.content,
       author: {

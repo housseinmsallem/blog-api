@@ -2,6 +2,7 @@ const prisma = require('../lib/client');
 const findPosts = async function () {
   return await prisma.post.findMany({
     select: {
+      id: true,
       title: true, // Select specific fields from Post
       content: true,
       author: {
