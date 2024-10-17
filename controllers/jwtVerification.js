@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
-
+require('dotenv').config();
 const verifyToken = (req, res, next) => {
-  const token = req.headers['authorization']?.split(' ')[1]; // Get the token from the request header
+  const jwtSecret = process.env.JWT_SECRET;
+  const token = req.headers['authorization']?.split(' ')[1];
   if (!token) {
     return res.status(401).json({
       success: false,
@@ -10,9 +11,9 @@ const verifyToken = (req, res, next) => {
   }
 
   try {
-    const verified = jwt.verify(token, 'bomba'); // Verify the token with the same secret
-    req.user = verified; // Attach the decoded token (user info) to the request
-    next(); // Proceed to the next middleware or route handler
+    const verified = jwt.verify(token, jwtSecret);
+    req.user = verified;
+    next();
   } catch (error) {
     res.status(400).json({
       success: false,

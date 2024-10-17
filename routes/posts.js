@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const verifyToken = require('../controllers/jwtVerification');
-const jwt = require('jsonwebtoken');
 const {
   findPosts,
   findComments,
@@ -21,6 +20,7 @@ router.get('/', verifyToken, async (req, res, next) => {
       id: blog.id,
       title: blog.title,
       content: blog.content,
+      summary: blog.summary,
       author: {
         username: blog.author.username,
         email: blog.author.email,
@@ -35,13 +35,14 @@ router.post('/', verifyToken, async (req, res, next) => {
   const postTitle = req.body.title;
   const postContent = req.body.content;
   const postAuthorId = req.body.userId;
+  const postSummary = req.body.summary;
   console.log([postAuthorId, postTitle, postContent]);
   if (!postAuthorId) {
     console.error('Please log in to create a post');
     return res.status(401).json({ error: 'Authentication required' });
   }
   try {
-    await createPost({ postTitle, postContent, postAuthorId });
+    await createPost({ postTitle, postContent, postAuthorId, postSummary });
     res.json({
       message: 'Post created',
     });

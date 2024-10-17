@@ -5,6 +5,7 @@ const findPosts = async function () {
       id: true,
       title: true, // Select specific fields from Post
       content: true,
+      summary: true,
       author: {
         // Include the related author model
         select: {
@@ -22,6 +23,7 @@ const findUniquePost = async function (postid) {
     select: {
       title: true,
       content: true,
+      summary: true,
       author: {
         select: {
           username: true,
@@ -49,6 +51,7 @@ const createPost = async function (post) {
     data: {
       title: post.postTitle,
       content: post.postContent,
+      summary: post.postSummary,
       author: {
         connect: { id: Number(post.postAuthorId) },
       },
