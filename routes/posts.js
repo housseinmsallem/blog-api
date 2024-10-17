@@ -51,10 +51,10 @@ router.post('/', verifyToken, async (req, res, next) => {
   }
 });
 
-router.get('/:postId', async (req, res, next) => {
-  const postId = req.params.postId;
+router.get('/:postid', verifyToken, async (req, res, next) => {
+  const postid = req.params.postid;
   try {
-    const post = await findUniquePost(postId);
+    const post = await findUniquePost(postid);
     console.log(post);
     if (!post) {
       return res.status(404).json({ error: 'Post not found' });
@@ -73,10 +73,10 @@ router.get('/:postId', async (req, res, next) => {
     next(error); // Pass any error to the error handling middleware
   }
 });
-router.get('/:postId/comments', async (req, res, next) => {
+router.get('/:postid/comments', async (req, res, next) => {
   try {
-    const postId = parseInt(req.params.postId); // Convert postId to an integer
-    const comments = await findComments(postId);
+    const postid = parseInt(req.params.postid); // Convert postid to an integer
+    const comments = await findComments(postid);
 
     if (comments.length === 0) {
       return res.status(404).json({ error: 'No comments found for this post' });
@@ -90,14 +90,14 @@ router.get('/:postId/comments', async (req, res, next) => {
     next(error);
   }
 });
-router.post('/:postId/comments', async (req, res, next) => {
-  const postId = parseInt(req.params.postId);
+router.post('/:postid/comments', async (req, res, next) => {
+  const postid = parseInt(req.params.postid);
   const authorId = req.user.id;
   try {
     await prisma.comments.create({
       data: {
         authorId: authorId,
-        postId: postId,
+        postid: postid,
         content: req.body.content,
       },
     });
