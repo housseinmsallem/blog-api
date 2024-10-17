@@ -27,6 +27,7 @@ model Post {
   id        Int       @id @default(autoincrement())
   title     String
   content   String
+  summary   String    @default("This is a summary")
   authorId  Int       // Foreign key for the author
   author    Reader    @relation(fields: [authorId], references: [id]) // A Post belongs to one Reader
   comments  Comment[]
