@@ -48,6 +48,19 @@ const findComments = async function (postId) {
   });
 };
 
+const createComment = async function (comment) {
+  await prisma.comment.create({
+    data: {
+      content: comment.content,
+      author: {
+        connect: { id: comment.userId },
+      },
+      post: {
+        connect: { id: comment.postId },
+      },
+    },
+  });
+};
 const createPost = async function (post) {
   await prisma.post.create({
     data: {
@@ -60,4 +73,10 @@ const createPost = async function (post) {
     },
   });
 };
-module.exports = { findPosts, findComments, findUniquePost, createPost };
+module.exports = {
+  findPosts,
+  findComments,
+  findUniquePost,
+  createPost,
+  createComment,
+};

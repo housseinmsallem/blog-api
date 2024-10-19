@@ -6,6 +6,7 @@ const {
   findComments,
   findUniquePost,
   createPost,
+  createComment,
 } = require('../controllers/queries');
 //BLOG VIEWING
 
@@ -75,7 +76,7 @@ router.get('/:postid', verifyToken, async (req, res, next) => {
     next(error);
   }
 });
-router.get('/:postid/comments', async (req, res, next) => {
+router.get('/:postid/comments', verifyToken, async (req, res, next) => {
   try {
     const postid = parseInt(req.params.postid);
     const comments = await findComments(postid);
@@ -92,16 +93,14 @@ router.get('/:postid/comments', async (req, res, next) => {
     next(error);
   }
 });
-router.post('/:postid/comments', async (req, res, next) => {
-  const postid = parseInt(req.params.postid);
-  const authorId = req.user.id;
+router.post('/:postid/comments', verifyToken, async (req, res, next) => {
+  const postId = parseInt(req.params.postid);
+  const userId = parseInt(req.body.userId);
+  const content = req.body.content;
   try {
-    await prisma.comments.create({
-      data: {
-        authorId: authorId,
-        postid: postid,
-        content: req.body.content,
-      },
+    await createComment({ postId, userId, content });
+    res.json({
+      message: 'Comment',
     });
   } catch (err) {
     return next(err);
