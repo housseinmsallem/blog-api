@@ -7,6 +7,7 @@ const {
   findUniquePost,
   createPost,
   createComment,
+  getTotalPosts,
 } = require('../controllers/queries');
 //BLOG VIEWING
 
@@ -14,6 +15,8 @@ router.get('/', verifyToken, async (req, res, next) => {
   try {
     const page = req.query.page;
     const limit = req.query.limit;
+    const totalPosts = await getTotalPosts();
+    console.log(totalPosts);
     const blog = await findPosts(page, limit);
 
     if (!blog) {
@@ -29,7 +32,7 @@ router.get('/', verifyToken, async (req, res, next) => {
         email: blog.author.email,
       },
     }));
-    res.json(formattedBlogs);
+    res.json({ posts: formattedBlogs, totalPosts });
   } catch (error) {
     next(error);
   }

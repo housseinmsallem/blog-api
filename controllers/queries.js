@@ -73,7 +73,12 @@ const createPost = async function (post) {
     },
   });
 };
+const getTotalPosts = async function () {
+  const totalPosts = await prisma.post.count();
+  return totalPosts;
+};
 module.exports = {
+  getTotalPosts,
   findPosts,
   findComments,
   findUniquePost,
