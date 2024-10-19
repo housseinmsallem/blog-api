@@ -11,7 +11,9 @@ const {
 
 router.get('/', verifyToken, async (req, res, next) => {
   try {
-    const blog = await findPosts();
+    const page = req.query.page;
+    const limit = req.query.limit;
+    const blog = await findPosts(page, limit);
 
     if (!blog) {
       return res.status(404).json({ error: 'Post not found' });
@@ -28,7 +30,7 @@ router.get('/', verifyToken, async (req, res, next) => {
     }));
     res.json(formattedBlogs);
   } catch (error) {
-    next(error); // Pass any error to the error handling middleware
+    next(error);
   }
 });
 router.post('/', verifyToken, async (req, res, next) => {
@@ -70,12 +72,12 @@ router.get('/:postid', verifyToken, async (req, res, next) => {
       comments: post.comments,
     });
   } catch (error) {
-    next(error); // Pass any error to the error handling middleware
+    next(error);
   }
 });
 router.get('/:postid/comments', async (req, res, next) => {
   try {
-    const postid = parseInt(req.params.postid); // Convert postid to an integer
+    const postid = parseInt(req.params.postid);
     const comments = await findComments(postid);
 
     if (comments.length === 0) {
@@ -105,7 +107,5 @@ router.post('/:postid/comments', async (req, res, next) => {
     return next(err);
   }
 });
-
-//BLOG CREATION
 
 module.exports = router;

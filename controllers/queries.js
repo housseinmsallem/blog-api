@@ -1,6 +1,8 @@
 const prisma = require('../lib/client');
-const findPosts = async function () {
+const findPosts = async function (page, limit) {
   return await prisma.post.findMany({
+    skip: (page - 1) * limit,
+    take: Number(limit),
     select: {
       id: true,
       title: true, // Select specific fields from Post
