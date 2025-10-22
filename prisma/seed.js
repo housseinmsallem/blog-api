@@ -22,17 +22,60 @@ async function main() {
   const post = await prisma.post.upsert({
     where: { id: 1 },
     update: {
-      title: 'i am developper yess',
-      content: 'very',
+      title:
+        '5 Things More Important for Your Content Than Content-Length in 2018',
+      content:
+        'User research is the reality check every project needs. Here’s our guide to why you should be doing it — and how to get started.',
       authorId: author.id,
+      image: 'http://localhost:3000/uploads/Image1.png',
     },
     create: {
-      title: 'i am developper yess',
-      content: 'very',
+      title:
+        '5 Things More Important for Your Content Than Content-Length in 2018',
+      content:
+        'User research is the reality check every project needs. Here’s our guide to why you should be doing it — and how to get started.',
       authorId: author.id,
+      image: 'http://localhost:3000/uploads/Image1.png',
     },
   });
-  console.log(post);
+  const post2 = await prisma.post.upsert({
+    where: { id: 2 },
+    update: {
+      title:
+        '5 Things More Important for Your Content Than Content-Length in 2018',
+      content:
+        'User research is the reality check every project needs. Here’s our guide to why you should be doing it — and how to get started.',
+      authorId: author.id,
+      image: 'http://localhost:3000/uploads/Image2.png',
+    },
+    create: {
+      title:
+        '5 Things More Important for Your Content Than Content-Length in 2018',
+      content:
+        'User research is the reality check every project needs. Here’s our guide to why you should be doing it — and how to get started.',
+      authorId: author.id,
+      image: 'http://localhost:3000/uploads/Image2.png',
+    },
+  });
+  const post3 = await prisma.post.upsert({
+    where: { id: 3 },
+    update: {
+      title:
+        '5 Things More Important for Your Content Than Content-Length in 2018',
+      content:
+        'User research is the reality check every project needs. Here’s our guide to why you should be doing it — and how to get started.',
+      authorId: author.id,
+      image: 'http://localhost:3000/uploads/Image3.png',
+    },
+    create: {
+      title:
+        '5 Things More Important for Your Content Than Content-Length in 2018',
+      content:
+        'User research is the reality check every project needs. Here’s our guide to why you should be doing it — and how to get started.',
+      authorId: author.id,
+      image: 'http://localhost:3000/uploads/Image3.png',
+    },
+  });
   // Upsert a comment associated with the post and author
   const comment = await prisma.comment.upsert({
     where: { id: 1 },

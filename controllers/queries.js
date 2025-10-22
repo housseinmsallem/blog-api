@@ -8,6 +8,7 @@ const findPosts = async function (page, limit) {
       title: true, // Select specific fields from Post
       content: true,
       summary: true,
+      image: true,
       author: {
         // Include the related author model
         select: {
@@ -26,6 +27,7 @@ const findUniquePost = async function (postid) {
       title: true,
       content: true,
       summary: true,
+      image: true,
       author: {
         select: {
           username: true,

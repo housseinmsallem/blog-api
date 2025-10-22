@@ -9,8 +9,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model Reader {
@@ -29,6 +29,7 @@ model Post {
   content   String
   summary   String    @default("This is a summary")
   authorId  Int       // Foreign key for the author
+  image     String
   author    Reader    @relation(fields: [authorId], references: [id]) // A Post belongs to one Reader
   comments  Comment[]
 }
